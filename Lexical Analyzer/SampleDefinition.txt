@@ -1,0 +1,8 @@
+reservedToken     ::= short | char | int | double | float | break | case | bool | true | false | continue | do | else | for | while | return | switch | while | void
+assignToken       ::= = | += | -= | /= | *= | %=
+operatorToken     ::= + | - | / | * | %
+comparisonToken   ::= < | <= | > | >= | != | ==
+logicToken        ::= && | ||
+separatorToken    ::= ( | ) | { | } | ; | : | ,
+spaceToken        ::= " " | "\t"
+newlineToken      ::= "\r\n" | "\n"
