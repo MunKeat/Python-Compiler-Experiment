@@ -5,4 +5,4 @@ comparisonToken   ::= < | <= | > | >= | != | ==
 logicToken        ::= && | ||
 separatorToken    ::= ( | ) | { | } | ; | : | ,
 spaceToken        ::= " " | "\t"
-newlineToken      ::= "\r\n" | "\n"
+newlineToken      ::= "\n"

@@ -33,19 +33,20 @@ token_dict = defaultdict(list)
 def define(self, file):
     file = open(definition_text)
     for line in self.file:
-    # Strip trailing newline characters
-    line = line.rstrip("\n")
-    # Split using regular expression at '::='
-    tokenDef = re.split("\s*::=\s*", line, maxsplit=1)
-    tokenItem = tokenDef[0]
-    # Split using regular expression at '|'
-    tokenRules = re.split("\s+\|\s+", tokenDef[1])
-        # Generate dictionary of rules for language
-        for rule in tokenRules:
-            token_dict[rule].append(tokenItem)
-            # Use a inverted using list comprehension with
-            # dict([[v,k] for k,v in mydict.items()])
+        # Strip trailing newline characters
+        line = line.rstrip("\n")
+        # Split using regular expression at '::='
+        tokenDef = re.split("\s*::=\s*", line, maxsplit=1)
+        tokenItem = tokenDef[0]
+        # Split using regular expression at '|'
+        tokenRules = re.split("\s+\|\s+", tokenDef[1])
+            # Generate dictionary of rules for language
+            for rule in tokenRules:
+                # The following assumption will hold:
+                # separator, whitepace & newline are 1 character
+                token_dict[rule].append(tokenItem)
 
+# For debugging
 def _analyse(self, source):
 # Analyse
 
