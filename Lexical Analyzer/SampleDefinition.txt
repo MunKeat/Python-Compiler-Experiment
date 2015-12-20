@@ -4,5 +4,5 @@ operatorToken     ::= + | - | / | * | %
 comparisonToken   ::= < | <= | > | >= | != | ==
 logicToken        ::= && | ||
 separatorToken    ::= ( | ) | { | } | ; | : | ,
-spaceToken        ::= " " | "\t"
-newlineToken      ::= "\n"
+spaceToken        ::= ' ' | '\t'
+newlineToken      ::= '\n'
