@@ -14,11 +14,15 @@ This repository aims to document the making of a compiler, based on the reading 
 #### Syntax/Semantic Analyser
 * [Stackexchange: How exactly is an abstract syntax tree created](http://programmers.stackexchange.com/questions/254074/how-exactly-is-an-abstract-syntax-tree-created)
 
+***
+
 ### Structure
 The structure of this toy compiler thus far will take on the following form:
 * Lexical Analyser
 * Syntax/Semantic Analyser (i.e. Parser)
 * Intermediate Code Generator
+
+***
 
 ### Language(s)
 The compiler aims to convert a simplified version of C to MIPS assembly code (tentative)
