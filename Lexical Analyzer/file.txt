@@ -1,4 +1,8 @@
+int main()
 {
-	y = 436 + 6
-	t = 45
+  int y = 2344;
+  int x = 57
+  int z = x + y;
+
+  return 0;
 }
