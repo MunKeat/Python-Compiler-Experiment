@@ -14,7 +14,7 @@ import sys
 # Keep track of line number in case of error diagnosis
 line_number = 1
 # File which contains source code
-source = open("file.txt", "br+")
+source = None
 # File which contains definition for tokens
 definition_text = "definition.txt"
 # Dictionary containing tokens
@@ -24,7 +24,7 @@ token_dict = {}
 # DEFINITION
 ########################################
 def define(debug=False):
-    file = open(definition_text)
+    file = open(definition_text, "r")
     for line in file:
         # Strip trailing newline characters
         line = line.rstrip("\n")
@@ -35,8 +35,11 @@ def define(debug=False):
         tokenRules = re.split("\s+\|\s+", tokenDef[1])
         # Generate dictionary of rules for language
         for rule in tokenRules:
-            # The following assumption will hold:
-            # separator, whitepace & newline are 1 character
+            # Remove any ' ', or pairing quotation marks
+            if(rule.startswith("'") and rule.endswith("'") and rule != "'"):
+               rule = rule.replace("'", "")
+            # Convert any escape characters to their actual counterpart
+            rule = bytes(rule, "utf-8").decode("unicode-escape")
             token_dict[rule] = tokenItem
     if debug:
         print("")
@@ -47,6 +50,45 @@ def define(debug=False):
 ########################################
 # IDENTITY
 ########################################
+def is_num(characters):
+    return str(characters).isdigit()
+
+def is_alpha(characters):
+    return str(characters).isalpha()
+
+def is_alnum(characters):
+    return str(characters).isalnum()
+
+def is_reserved(characters):
+    if character in token_dict:
+        return token_dict[character] == "reservedToken"
+    else:
+        return False
+
+def is_assign(characters):
+    if character in token_dict:
+        return token_dict[character] == "assignToken"
+    else:
+        return False
+
+def is_operator(characters):
+    if character in token_dict:
+        return token_dict[character] == "operatorToken"
+    else:
+        return False
+
+def is_comparator(characters):
+    if character in token_dict:
+        return token_dict[character] == "comparisonToken"
+    else:
+        return False
+
+def is_logical_token(characters):
+    if character in token_dict:
+        return token_dict[character] == "logicToken"
+    else:
+        return False
+
 def is_whitespace(character):
     if character in token_dict:
         return token_dict[character] == "spaceToken"
@@ -64,15 +106,6 @@ def is_newline(character):
         return token_dict[character] == "newlineToken"
     else:
         return False
-
-def is_num(character):
-    return str(character).isdigit()
-
-def is_alpha(character):
-    return str(character).isalpha()
-
-def is_alnum(character):
-    return str(character).isalpha() or str(character).isdigit()
 
 ########################################
 # TOKENISE
@@ -95,7 +128,8 @@ def peek():
     return character
 
 def tokenise(skip_whitespace=True):
-    '''Tokenise a stream of tokens (or more accurately, terminals)'''
+    '''Tokenise a stream of input'''
+    global line_number
     # Check if dictionary is available
     if not token_dict:
         define()
@@ -141,18 +175,21 @@ def tokenise(skip_whitespace=True):
         else:
             return (char, "UNKNOWN")
 
-# For debugging
 def analyse(output=False):
     # List of tokens and corresponding type
     source_tokenised = []
     while peek():
-        source_tokenised.append(tokenise())
+        token = tokenise();
+        if token is None:
+            continue
+        source_tokenised.append(token)
     if output:
         for source_token in source_tokenised:
             print(source_token)
     return source_tokenised
 
 def main():
+    global source
     # Ensure file to be analysed exist
     source = open(sys.argv[1], "br+")
     define(True)
