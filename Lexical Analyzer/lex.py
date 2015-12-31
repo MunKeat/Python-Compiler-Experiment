@@ -6,26 +6,22 @@ Summary:
     Lexical Analyzer of Compiler (Rough Draft)
     Source Code: C (A simplified version)
     Note that token definition are decoupled from module.
-Acknowledgement:
-    http://stackoverflow.com/questions/17848207/making-a-lexical-analyzer
-    https://github.com/x2adrew/lexical_python
 '''
 # Import regular expression module to parse definition file
 import re
+import sys
 
 # Keep track of line number in case of error diagnosis
 line_number = 1
 # File which contains source code
-# TODO: Ensures that script accept parameter
 source = open("file.txt", "br+")
 # File which contains definition for tokens
-# TODO: Set up a minimal version of Definition.txt, for HereDoc, to allow lex.py to be independent
 definition_text = "definition.txt"
 # Dictionary containing tokens
 token_dict = {}
 
 ########################################
-# Definition
+# DEFINITION
 ########################################
 def define(debug=False):
     file = open(definition_text)
@@ -41,11 +37,16 @@ def define(debug=False):
         for rule in tokenRules:
             # The following assumption will hold:
             # separator, whitepace & newline are 1 character
-            token_dict[str(rule)] = tokenItem
+            token_dict[rule] = tokenItem
     if debug:
+        print("")
         for key, value in token_dict.items():
-            print("{} : {}".format(key, value))
+            print("{: <10} : {: <10}".format(key, value))
+        print("")
 
+########################################
+# IDENTITY
+########################################
 def is_whitespace(character):
     if character in token_dict:
         return token_dict[character] == "spaceToken"
@@ -74,7 +75,7 @@ def is_alnum(character):
     return str(character).isalpha() or str(character).isdigit()
 
 ########################################
-# Tokenise
+# TOKENISE
 ########################################
 def read_next():
     '''
@@ -151,5 +152,11 @@ def analyse(output=False):
             print(source_token)
     return source_tokenised
 
-define()
-analyse()
+def main():
+    # Ensure file to be analysed exist
+    source = open(sys.argv[1], "br+")
+    define(True)
+    analyse(True)
+
+if __name__ == "__main__":
+  main()
