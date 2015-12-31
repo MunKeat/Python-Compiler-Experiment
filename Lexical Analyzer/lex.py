@@ -20,7 +20,7 @@ line_number = 1
 source = open("file.txt", "br+")
 # File which contains definition for tokens
 # TODO: Set up a minimal version of Definition.txt, for HereDoc, to allow lex.py to be independent
-definition_text = "SampleDefinition.txt"
+definition_text = "definition.txt"
 # Dictionary containing tokens
 token_dict = {}
 
