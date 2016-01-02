@@ -15,24 +15,21 @@ import sys
 line_number = 1
 # File which contains source code
 source = None
-# File which contains definition for tokens
-definition_text = "definition.txt"
 # Dictionary containing tokens
 token_dict = {}
 
 ########################################
 # DEFINITION
 ########################################
-def define(debug=False):
+def define(debug=False, definition_text="definition.txt"):
     file = open(definition_text, "r")
     for line in file:
         # Strip trailing newline characters
         line = line.rstrip("\n")
         # Split using regular expression at '::='
-        tokenDef = re.split("\s*::=\s*", line, maxsplit=1)
-        tokenItem = tokenDef[0]
+        tokenItem, tokenDef = re.split("\s*::=\s*", line, maxsplit=1)
         # Split using regular expression at '|'
-        tokenRules = re.split("\s+\|\s+", tokenDef[1])
+        tokenRules = re.split("\s+\|\s+", tokenDef)
         # Generate dictionary of rules for language
         for rule in tokenRules:
             # Remove any ' ', or pairing quotation marks
@@ -50,62 +47,35 @@ def define(debug=False):
 ########################################
 # IDENTITY
 ########################################
-def is_num(characters):
-    return str(characters).isdigit()
+def _is_num(characters): return str(characters).isdigit()
 
-def is_alpha(characters):
-    return str(characters).isalpha()
+def _is_alpha(characters): return str(characters).isalpha()
 
-def is_alnum(characters):
-    return str(characters).isalnum()
+def _is_alnum(characters): return str(characters).isalnum()
 
-def is_reserved(characters):
-    if character in token_dict:
-        return token_dict[character] == "reservedToken"
-    else:
-        return False
+def _is_reserved(characters):
+    return token_dict.get(characters, None) == "reservedToken"
 
-def is_assign(characters):
-    if character in token_dict:
-        return token_dict[character] == "assignToken"
-    else:
-        return False
+def _is_assign(characters):
+    return token_dict.get(characters, None) == "assignToken"
 
-def is_operator(characters):
-    if character in token_dict:
-        return token_dict[character] == "operatorToken"
-    else:
-        return False
+def _is_operator(characters):
+    return token_dict.get(characters, None) == "operatorToken"
 
-def is_comparator(characters):
-    if character in token_dict:
-        return token_dict[character] == "comparisonToken"
-    else:
-        return False
+def _is_comparator(characters):
+    return token_dict.get(characters, None) == "comparisonToken"
 
-def is_logical_token(characters):
-    if character in token_dict:
-        return token_dict[character] == "logicToken"
-    else:
-        return False
+def _is_logical_token(characters):
+    return token_dict.get(characters, None) == "logicToken"
 
-def is_whitespace(character):
-    if character in token_dict:
-        return token_dict[character] == "spaceToken"
-    else:
-        return False
+def _is_whitespace(character):
+    return token_dict.get(character, None) == "spaceToken"
 
-def is_separator(character):
-    if character in token_dict:
-        return token_dict[character] == "separatorToken"
-    else:
-        return False
+def _is_separator(character):
+    return token_dict.get(character, None) == "separatorToken"
 
-def is_newline(character):
-    if character in token_dict:
-        return token_dict[character] == "newlineToken"
-    else:
-        return False
+def _is_newline(character):
+    return token_dict.get(character, None) == "newlineToken"
 
 ########################################
 # TOKENISE
