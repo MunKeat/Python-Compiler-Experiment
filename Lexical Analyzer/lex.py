@@ -106,36 +106,36 @@ def tokenise(skip_whitespace=True):
     char = read_next()
     token = []
     # Case: Alphabet
-    if is_alpha(char):
+    if _is_alpha(char):
         token.append(char)
         while True:
             temp = peek()
-            if not is_alnum(temp):
+            if not _is_alnum(temp):
                 token = "".join(token)
                 return (token, "string")
             else:
                 token.append(read_next())
     # Case : Numbers
-    elif is_num(char):
+    elif _is_num(char):
         token.append(char)
         while True:
             temp = peek()
-            if not is_num(temp):
+            if not _is_num(temp):
                 token = "".join(token)
                 return (token, "number")
             else:
                 token.append(read_next())
     # Case: Whitespace
-    elif is_whitespace(char):
+    elif _is_whitespace(char):
         if skip_whitespace:
             return
         else:
             return (char, token_dict[char])
     # Case: Separator
-    elif is_separator(char):
+    elif _is_separator(char):
         return (char, token_dict[char])
     # Case: Newline
-    elif is_newline(char):
+    elif _is_newline(char):
         line_number += 1
         return (char, token_dict[char])
     # Case: Default
